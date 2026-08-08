@@ -4,6 +4,7 @@ import userRoutes from './routes/user.routes';
 import categoryRoutes from './routes/category.routes';
 import serviceRoutes from './routes/service.routes';
 import bookingRoutes from './routes/booking.routes';
+import reviewRoutes from './routes/review.routes';
 
 const app: Application = express();
 
@@ -15,6 +16,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Health check route
 app.get('/', (req: Request, res: Response) => {
