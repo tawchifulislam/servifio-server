@@ -39,6 +39,21 @@ const createBooking = async (
 };
 
 const getMyBookings = async (userId: string, role: string) => {
+  if (role === 'ADMIN') {
+    return prisma.booking.findMany({
+      where: { isDeleted: false },
+      include: {
+        service: {
+          include: { provider: { select: { id: true, name: true } } },
+        },
+        customer: {
+          select: { id: true, name: true, email: true, phone: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   if (role === 'PROVIDER') {
     return prisma.booking.findMany({
       where: { isDeleted: false, service: { providerId: userId } },

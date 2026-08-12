@@ -73,7 +73,51 @@ const loginUser = async (payload: LoginInput) => {
   return { user: userWithoutPassword, token };
 };
 
+const getAllUsers = async () => {
+  const users = await prisma.user.findMany({
+    where: { isDeleted: false },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      role: true,
+      isDeleted: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return users;
+};
+
+const toggleUserStatus = async (id: string) => {
+  const user = await prisma.user.findUnique({ where: { id } });
+
+  if (!user) {
+    throw new ApiError(404, 'User not found');
+  }
+
+  const updated = await prisma.user.update({
+    where: { id },
+    data: { isDeleted: !user.isDeleted },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      role: true,
+      isDeleted: true,
+      createdAt: true,
+    },
+  });
+
+  return updated;
+};
+
 export const UserService = {
   registerUser,
   loginUser,
+  getAllUsers,
+  toggleUserStatus,
 };
