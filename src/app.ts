@@ -7,6 +7,7 @@ import serviceRoutes from './routes/service.routes';
 import bookingRoutes from './routes/booking.routes';
 import reviewRoutes from './routes/review.routes';
 import { notFoundHandler, globalErrorHandler } from './lib/errorHandler';
+import healthRoutes from './routes/health.routes';
 
 const app: Application = express();
 
@@ -19,6 +20,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/health', healthRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
